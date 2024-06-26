@@ -1,0 +1,7 @@
+pyaudio
+wave
+base64
+urllib
+requests
+json
+pyttsx3
