@@ -8,11 +8,13 @@ import pyttsx3 as pyttsx
 
 engine = pyttsx.init()
 
-C_API_KEY = "GO40EP6lCOV5249YkPlr5Oql"
-C_SECRET_KEY = "4Ug8LKTrwi9BE61P3h5zuA06ReVPcmPE"
+#百度智能云替换为自己的
+C_API_KEY = "Your_API_KEY"
+C_SECRET_KEY = "Your_SECRET_KEY"
 
-L_API_Key = 'fxOjed6yirtXlNkswHJxUXkP'
-L_Secret_Key = 'kFQswsA5EdmD8DckWIyWmH80Clj00uoo'
+#百度千帆大模型替换为自己的
+L_API_Key = 'Your_API_KEY'
+L_Secret_Key = 'Your_SECRET_KEY'
 
 def get_access_token_C():
     """
