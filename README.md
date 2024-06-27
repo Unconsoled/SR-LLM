@@ -12,4 +12,4 @@
       L_API_Key = 'Your_API_KEY'
       L_Secret_Key = 'Your_SECRET_KEY'
 
-       "speech": get_file_content_as_base64("F:/xiangmu/LLM/wenxin/output.wav") ,文件位置需要更换
+       "speech": get_file_content_as_base64("F:/xiangmu/LLM/wenxin/output.wav") , #这里的文件位置需要更换
