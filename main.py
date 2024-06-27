@@ -57,7 +57,6 @@ def get_file_content_as_base64(path, urlencoded=False):
 
 def main():
     
-    counter = 0
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
@@ -157,7 +156,6 @@ def main():
                 "role": "assistant",
                 "content": output2
             }) # 把模型的输出再返回给模型 实现上下文连续对话
-            counter +=1 # 对话次数+1
 
 if __name__ == '__main__':
     main()
