@@ -5,6 +5,7 @@ import urllib
 import requests
 import json
 import pyttsx3 as pyttsx
+Switch = True
 
 engine = pyttsx.init()
 
@@ -55,8 +56,7 @@ def get_file_content_as_base64(path, urlencoded=False):
             content = urllib.parse.quote_plus(content)
     return content
 
-def main():
-    
+def voice():
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
@@ -64,32 +64,35 @@ def main():
     RECORD_SECONDS = 5
     WAVE_OUTPUT_FILENAME = "output.wav"
 
-    while True:
-        p = pyaudio.PyAudio()
+    p = pyaudio.PyAudio()
 
-        stream = p.open(format=FORMAT,
-                        channels=CHANNELS,
-                        rate=RATE,
-                        input=True,
-                        frames_per_buffer=CHUNK)
-        print("开始录音，请说话...")
-        frames = []
+    stream = p.open(format=FORMAT,
+                    channels=CHANNELS,
+                    rate=RATE,
+                    input=True,
+                    frames_per_buffer=CHUNK)
+    print("开始录音，请说话...")
+    frames = []
 
-        for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
-            data = stream.read(CHUNK)
-            frames.append(data)
-        print("录音结束。")
-        stream.stop_stream()
-        stream.close()
-        p.terminate()
+    for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+        data = stream.read(CHUNK)
+        frames.append(data)
+    print("录音结束。")
+    stream.stop_stream()
+    stream.close()
+    p.terminate()
 
-        wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
-        wf.setnchannels(CHANNELS)
-        wf.setsampwidth(p.get_sample_size(FORMAT))
-        wf.setframerate(RATE)
-        wf.writeframes(b''.join(frames))
-        wf.close()
+    wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+    wf.setnchannels(CHANNELS)
+    wf.setsampwidth(p.get_sample_size(FORMAT))
+    wf.setframerate(RATE)
+    wf.writeframes(b''.join(frames))
+    wf.close()
+    
+def main():
 
+    while Switch:
+        voice()
         url_C = "https://vop.baidu.com/server_api"
 
         # speech 可以通过 get_file_content_as_base64("C:\fakepath\output.wav",False) 方法获取
@@ -117,20 +120,22 @@ def main():
                 out1 = json_out1.get('result')
                 print(out1)
 
+        input1 = str(out1)
 
-            information =  {
+        if input1 == '[\'\']':
+            Switch
+        elif input1 == '[\'退下吧！\']':
+            break
+        else:
+            information = {
                 "messages": [],
                 'stream': True
             }
 
-            input1 = str(out1)
             information['messages'].append({
                 "role": "user",
                 "content": input1
             })
-
-            if input1=='好的。':
-                Switch = False
 
             url_L = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/yi_34b_chat?access_token=" + get_access_token_L()
 
@@ -155,7 +160,7 @@ def main():
             information['messages'].append({
                 "role": "assistant",
                 "content": output2
-            }) # 把模型的输出再返回给模型 实现上下文连续对话
+            })  # 把模型的输出再返回给模型 实现上下文连续对话
 
 if __name__ == '__main__':
     main()
