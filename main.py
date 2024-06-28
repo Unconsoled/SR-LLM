@@ -56,7 +56,7 @@ def get_file_content_as_base64(path, urlencoded=False):
             content = urllib.parse.quote_plus(content)
     return content
 
-def vedio():
+def Audio():
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
@@ -92,7 +92,7 @@ def vedio():
 def main():
 
     while Switch:
-        vedio()
+        Audio()
         url_C = "https://vop.baidu.com/server_api"
 
         # speech 可以通过 get_file_content_as_base64("C:\fakepath\output.wav",False) 方法获取
