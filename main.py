@@ -91,6 +91,11 @@ def Audio():
     
 def main():
 
+    information = {
+        "messages": [],
+        'stream': True
+    }
+
     while Switch:
         Audio()
         url_C = "https://vop.baidu.com/server_api"
@@ -128,10 +133,6 @@ def main():
         elif output1 == '退下吧！':
             break
         else:
-            information = {
-                "messages": [],
-                'stream': True
-            }
 
             information['messages'].append({
                 "role": "user",
@@ -141,11 +142,12 @@ def main():
             url_L = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/yi_34b_chat?access_token=" + get_access_token_L()
 
             payload_L = json.dumps(information)
+            print(payload_L)
             headers_L = {
                 'Content-Type': 'application/json'
             }
 
-            response2 = requests.request("POST", url_L, headers=headers_L, data=payload_L,stream = True)
+            response2 = requests.request("POST", url_L, headers=headers_L, data=payload_L, stream=True)
             output2 = str()
             for line in response2.iter_lines():
                 data_str2 = line.decode("UTF-8")
@@ -154,7 +156,7 @@ def main():
                     json_out2 = json.loads(json_str2)
                     out2 = json_out2.get('result')
                     output2 += out2
-                    print(out2)
+                    print(output2)
                     engine.say(out2)
                     engine.runAndWait()
 
