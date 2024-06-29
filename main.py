@@ -112,19 +112,20 @@ def main():
         }
 
         response1 = requests.request("POST", url_C, headers=headers_C, data=payload_C)
+        output1 = str()
         for line in response1.iter_lines():
             data_str1 = line.decode("UTF-8")
             if data_str1:  # 间隔输出空行 因此要判断是否为空
                 json_str1 = data_str1.replace('data:', '')
                 json_out1 = json.loads(json_str1)
                 out1 = json_out1.get('result')
-                print(out1)
+                l2 = ''.join(str(i) for i in out1)
+                output1 += l2
+                print(output1)
 
-        input1 = str(out1)
-
-        if input1 == '[\'\']':
+        if output1 == '':
             Switch
-        elif input1 == '[\'退下吧！\']':
+        elif output1 == '退下吧！':
             break
         else:
             information = {
@@ -134,7 +135,7 @@ def main():
 
             information['messages'].append({
                 "role": "user",
-                "content": input1
+                "content": output1
             })
 
             url_L = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/yi_34b_chat?access_token=" + get_access_token_L()
